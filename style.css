@@ -1012,9 +1012,9 @@ img {
     .nav-toggle { display: block; z-index: 1001; cursor: pointer; }
     .nav-cta { display: none; }
     
-    .hero-container { grid-template-columns: 1fr; text-align: center; gap: 3rem; }
+    .hero-container { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
     .hero-buttons, .hero-social { justify-content: center; }
-    .hero-image-wrapper { margin: 0 auto; max-width: 80%; }
+    .hero-image-wrapper { margin: 2rem auto 0 auto; max-width: 85%; display: block; }
     .aurora { width: 100vw; height: 100vw; }
     
     .timeline::before { left: 10px; }
