@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohammed Aamer Sohel — AI Content Creator</title>
+<meta name="description" content="Portfolio of Mohammed Aamer Sohel, AI Content Creator specializing in AI-generated imagery and video.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#15161c;
+    --bg-raised:#1b1c23;
+    --bronze:#c6875a;
+    --bronze-bright:#e8a863;
+    --text:#f1ece2;
+    --text-dim:#9a9488;
+    --line:#2a2b33;
+    --serif: 'Fraunces', serif;
+    --sans: 'Inter', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 28px;}
+
+  /* nav */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(21,22,28,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .brand{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:0.01em;}
+  .brand em{font-style:normal;color:var(--bronze);}
+  .navlinks{display:flex;gap:28px;font-size:14px;color:var(--text-dim);}
+  .navlinks a:hover{color:var(--bronze-bright);}
+  .navlinks{display:none;}
+  @media(min-width:720px){.navlinks{display:flex;}}
+
+  /* hero */
+  header.hero{
+    position:relative;
+    padding:120px 0 100px;
+    overflow:hidden;
+  }
+  .glow{
+    position:absolute;
+    top:-200px;left:50%;transform:translateX(-50%);
+    width:900px;height:600px;
+    background:radial-gradient(ellipse at center, rgba(198,135,90,0.16) 0%, rgba(198,135,90,0) 70%);
+    pointer-events:none;
+  }
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--bronze);margin-bottom:22px;display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--bronze-bright);
+    box-shadow:0 0 10px 2px rgba(232,168,99,0.6);}
+  h1.title{
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:clamp(38px,6vw,64px);
+    line-height:1.06;
+    letter-spacing:-0.01em;
+    max-width:780px;
+  }
+  h1.title .accent{
+    background:linear-gradient(90deg, var(--bronze) 0%, var(--bronze-bright) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .subhead{
+    margin-top:22px;font-size:18px;color:var(--text-dim);max-width:560px;
+  }
+  .hero-links{margin-top:34px;display:flex;flex-wrap:wrap;gap:14px;font-size:14px;}
+  .pill{
+    border:1px solid var(--line);padding:9px 18px;border-radius:100px;
+    font-family:var(--mono);font-size:13px;color:var(--text-dim);
+    transition:border-color .2s, color .2s;
+  }
+  .pill:hover{border-color:var(--bronze);color:var(--bronze-bright);}
+  .pill.primary{background:var(--bronze);color:#15161c;border-color:var(--bronze);font-weight:500;}
+  .pill.primary:hover{background:var(--bronze-bright);border-color:var(--bronze-bright);color:#15161c;}
+
+  /* section shell */
+  section{padding:76px 0;border-top:1px solid var(--line);}
+  .section-label{
+    font-family:var(--mono);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--bronze);margin-bottom:14px;
+  }
+  h2.section-title{
+    font-family:var(--serif);font-weight:500;font-size:clamp(26px,3.4vw,34px);
+    margin-bottom:36px;max-width:640px;
+  }
+
+  /* about */
+  .about-grid{display:grid;grid-template-columns:1fr;gap:32px;}
+  @media(min-width:720px){.about-grid{grid-template-columns:1fr 1fr;}}
+  .about-text p{color:var(--text-dim);margin-bottom:16px;font-size:15.5px;}
+  .about-text strong{color:var(--text);font-weight:500;}
+  .stack-list{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line);}
+  .stack-item{
+    display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);
+    font-size:14.5px;
+  }
+  .stack-item .k{color:var(--text-dim);}
+  .stack-item .v{font-family:var(--mono);color:var(--bronze-bright);font-size:13px;text-align:right;}
+
+  /* timeline (experience) */
+  .timeline{display:flex;flex-direction:column;}
+  .tl-item{
+    display:grid;grid-template-columns:100px 1fr;gap:24px;
+    padding:28px 0;border-bottom:1px solid var(--line);
+  }
+  .tl-item:first-child{padding-top:0;}
+  .tl-date{font-family:var(--mono);font-size:12.5px;color:var(--bronze);padding-top:3px;}
+  .tl-role{font-family:var(--serif);font-size:19px;font-weight:600;margin-bottom:4px;}
+  .tl-org{font-size:14px;color:var(--text-dim);margin-bottom:12px;}
+  .tl-org .tag{
+    font-family:var(--mono);font-size:11px;color:var(--bronze-bright);
+    border:1px solid var(--line);border-radius:4px;padding:2px 7px;margin-left:8px;
+  }
+  .tl-item ul{margin-left:18px;color:var(--text-dim);font-size:14.5px;}
+  .tl-item li{margin-bottom:6px;}
+  .tl-item li::marker{color:var(--bronze);}
+
+  /* skills */
+  .skill-groups{display:grid;grid-template-columns:1fr;gap:28px;}
+  @media(min-width:720px){.skill-groups{grid-template-columns:repeat(3,1fr);}}
+  .skill-group h3{
+    font-family:var(--mono);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--text-dim);margin-bottom:14px;
+  }
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    font-size:13px;padding:7px 13px;border:1px solid var(--line);border-radius:6px;color:var(--text);
+    background:var(--bg-raised);
+  }
+
+  /* education */
+  .edu-item{padding:18px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;}
+  .edu-item:last-child{border-bottom:none;}
+  .edu-name{font-weight:500;font-size:15px;}
+  .edu-sub{color:var(--text-dim);font-size:13.5px;}
+  .edu-date{font-family:var(--mono);font-size:12.5px;color:var(--text-dim);}
+
+  /* portfolio / empty state */
+  .portfolio-empty{
+    border:1px dashed var(--line);
+    border-radius:14px;
+    padding:56px 32px;
+    text-align:center;
+    background:linear-gradient(180deg, rgba(198,135,90,0.04), transparent);
+  }
+  .portfolio-empty .icon{
+    width:44px;height:44px;margin:0 auto 20px;
+    border-radius:50%;border:1px solid var(--bronze);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--bronze-bright);font-family:var(--mono);font-size:18px;
+  }
+  .portfolio-empty h3{font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:10px;}
+  .portfolio-empty p{color:var(--text-dim);font-size:14.5px;max-width:420px;margin:0 auto;}
+  .portfolio-note{
+    margin-top:18px;font-family:var(--mono);font-size:12px;color:var(--bronze);
+  }
+
+  /* contact */
+  .contact-grid{display:grid;grid-template-columns:1fr;gap:16px;}
+  @media(min-width:600px){.contact-grid{grid-template-columns:repeat(3,1fr);}}
+  .contact-card{
+    border:1px solid var(--line);border-radius:10px;padding:20px;
+  }
+  .contact-card .k{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-dim);margin-bottom:8px;}
+  .contact-card .v{font-size:15px;}
+  .contact-card .v a:hover{color:var(--bronze-bright);}
+
+  footer{padding:40px 0;text-align:center;color:var(--text-dim);font-size:13px;border-top:1px solid var(--line);}
+  footer span{color:var(--bronze);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">MA<em>S</em>.</div>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="glow"></div>
+  <div class="wrap">
+    <div class="eyebrow">Open to freelance &amp; full-time work</div>
+    <h1 class="title">AI Content Creator<br>shaping <span class="accent">imagery &amp; video</span><br>from raw prompts.</h1>
+    <p class="subhead">Mohammed Aamer Sohel — producing ultra-realistic AI-generated imagery and video using Google Flow, Imagen 4, Veo, Kling AI, and Seedance. Based in Hyderabad, India.</p>
+    <div class="hero-links">
+      <a class="pill primary" href="mailto:aamersohel996@gmail.com">Email me</a>
+      <a class="pill" href="https://www.linkedin.com/in/mohammedaamersohel/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a class="pill" href="#portfolio">View portfolio</a>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-label">01 — About</div>
+    <h2 class="section-title">From a family hardware business to AI-generated storytelling.</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm an <strong>AI Content Creator</strong> with hands-on experience producing ultra-realistic AI-generated imagery and short-form video, using tools including <strong>Google Flow</strong>, <strong>Imagen 4</strong>, <strong>Veo</strong>, <strong>Kling AI</strong>, and <strong>Seedance</strong>. My focus is end-to-end content workflows — from concept and iteration to platform-ready creative for Instagram and TikTok.</p>
+        <p>My path here wasn't linear. I spent two years supporting operations at my family's business before moving into AI content creation full-time, and I've carried that same detail-oriented, problem-solving approach into every project since.</p>
+        <p>I'm currently building out a public portfolio of AI-driven content work — this site will grow alongside it.</p>
+      </div>
+      <div class="stack-list">
+        <div class="stack-item"><span class="k">Based in</span><span class="v">Hyderabad, India</span></div>
+        <div class="stack-item"><span class="k">Focus</span><span class="v">AI Imagery &amp; Video</span></div>
+        <div class="stack-item"><span class="k">Core tools</span><span class="v">Flow / Imagen 4 / Veo / Kling</span></div>
+        <div class="stack-item"><span class="k">Platforms</span><span class="v">Instagram / TikTok</span></div>
+        <div class="stack-item"><span class="k">Status</span><span class="v">Open to work</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-label">02 — Experience</div>
+    <h2 class="section-title">Where the work has happened.</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">Jan 2026 —<br>Jun 2026</div>
+        <div>
+          <div class="tl-role">AI Content Creator</div>
+          <div class="tl-org">NovaX Hong Kong <span class="tag">Freelance / Remote</span></div>
+          <ul>
+            <li>Produced AI-generated images and short-form video using Google Flow, Imagen 4, and video models including Veo, Kling AI, and Seedance for Instagram-first influencer and brand content.</li>
+            <li>Owned the end-to-end content generation process — concept, iteration, and refinement — to maintain a consistent visual identity across a recurring content series.</li>
+            <li>Ran hashtag and trend research to inform content calendar decisions and tracked post-level performance to guide format and timing.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2023 —<br>2025</div>
+        <div>
+          <div class="tl-role">Operations &amp; Business Support</div>
+          <div class="tl-org">SK Steel &amp; Cement <span class="tag">Hyderabad</span></div>
+          <ul>
+            <li>Supported daily operations at a multi-brand cement and steel bar dealership, coordinating with vendors and customers across the sales process.</li>
+            <li>Handled customer-facing communication and helped clients navigate product options across brands.</li>
+            <li>Used this period to self-teach AI content generation tools, laying the groundwork for a move into AI content creation.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-label">03 — Skills</div>
+    <h2 class="section-title">The stack behind the work.</h2>
+    <div class="skill-groups">
+      <div class="skill-group">
+        <h3>AI &amp; Generation</h3>
+        <div class="chip-row">
+          <span class="chip">Google Flow</span>
+          <span class="chip">Imagen 4</span>
+          <span class="chip">Veo</span>
+          <span class="chip">Kling AI</span>
+          <span class="chip">Seedance</span>
+          <span class="chip">Generative AI</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Content Strategy</h3>
+        <div class="chip-row">
+          <span class="chip">Content Planning</span>
+          <span class="chip">Trend Research</span>
+          <span class="chip">Instagram Marketing</span>
+          <span class="chip">Content Strategy</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Operations</h3>
+        <div class="chip-row">
+          <span class="chip">Vendor Coordination</span>
+          <span class="chip">Customer Service</span>
+          <span class="chip">Inventory Management</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="section-label">04 — Education</div>
+    <h2 class="section-title">Academic background.</h2>
+    <div class="edu-item">
+      <div>
+        <div class="edu-name">B.Sc. Electronics — Don Bosco Degree College</div>
+        <div class="edu-sub">Electronics, Digital Systems, Microprocessors, Communication Systems</div>
+      </div>
+      <div class="edu-date">2019 – 2023</div>
+    </div>
+    <div class="edu-item">
+      <div>
+        <div class="edu-name">Intermediate (MPC) — Sri Gayatri Junior College</div>
+        <div class="edu-sub">Mathematics, Physics, Chemistry</div>
+      </div>
+      <div class="edu-date">2015 – 2017</div>
+    </div>
+    <div class="edu-item">
+      <div>
+        <div class="edu-name">SSC — Vijetha High School</div>
+        <div class="edu-sub">General studies</div>
+      </div>
+      <div class="edu-date">2015</div>
+    </div>
+  </div>
+</section>
+
+<section id="portfolio">
+  <div class="wrap">
+    <div class="section-label">05 — Portfolio</div>
+    <h2 class="section-title">Selected work.</h2>
+    <div class="portfolio-empty">
+      <div class="icon">+</div>
+      <h3>First project loading</h3>
+      <p>An AI cinematic short — a bronze artifact transforming into a full statue, produced with Google Flow, Imagen 4, and Veo — is currently in progress and will be featured here once finished.</p>
+      <div class="portfolio-note" style="margin-top:4px;">Also worked with: Kling AI, Seedance</div>
+      <div class="portfolio-note">Check back soon</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="section-label">06 — Contact</div>
+    <h2 class="section-title">Let's talk.</h2>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="k">Email</div>
+        <div class="v"><a href="mailto:aamersohel996@gmail.com">aamersohel996@gmail.com</a></div>
+      </div>
+      <div class="contact-card">
+        <div class="k">Phone</div>
+        <div class="v"><a href="tel:+918801754658">+91 8801754658</a></div>
+      </div>
+      <div class="contact-card">
+        <div class="k">LinkedIn</div>
+        <div class="v"><a href="https://www.linkedin.com/in/mohammedaamersohel/" target="_blank" rel="noopener">/mohammedaamersohel</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Mohammed Aamer Sohel — Hyderabad, India
+</footer>
+
+</body>
+</html>
