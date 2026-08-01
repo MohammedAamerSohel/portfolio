@@ -41,8 +41,9 @@
     border-bottom:1px solid var(--line);
   }
   nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
-  .brand{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:0.01em;}
-  .brand em{font-style:normal;color:var(--bronze);}
+  .brand{font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:0.02em;position:relative;padding-bottom:2px;}
+  .brand em{font-style:normal;color:var(--bronze-bright);}
+  .brand::after{content:'';position:absolute;left:0;bottom:-2px;width:22px;height:2px;background:var(--bronze);border-radius:2px;}
   .navlinks{display:flex;gap:28px;font-size:14px;color:var(--text-dim);}
   .navlinks a:hover{color:var(--bronze-bright);}
   .navlinks{display:none;}
@@ -192,7 +193,7 @@
 
 <nav>
   <div class="wrap">
-    <div class="brand">MA<em>S</em>.</div>
+    <div class="brand">MA<em>S</em></div>
     <div class="navlinks">
       <a href="#about">About</a>
       <a href="#experience">Experience</a>
