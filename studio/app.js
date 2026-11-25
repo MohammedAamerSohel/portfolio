@@ -36,7 +36,7 @@ function updateMotion() {
   face.setActive(visible && !document.hidden);
   stage.classList.toggle('motion-paused', !visible || document.hidden);
   if (!visible || document.hidden) {
-    stage.removeAttribute('style');
+
     return;
   }
   timer = setInterval(() => {
@@ -57,4 +57,24 @@ const reveals = new IntersectionObserver(entries => {
   });
 });
 document.querySelectorAll('.gallery article').forEach(card => reveals.observe(card));
-updateMotion();
+updateMotion();const opening=document.querySelector('.opening');
+const featuredFilm=opening.querySelector('.opening-film');
+const desktopOpening=matchMedia('(min-width: 821px)');
+function frameOpening(){
+  const distance=opening.offsetHeight-stage.offsetHeight;
+  const progress=desktopOpening.matches && distance>0 ? Math.max(0,Math.min(1,-opening.getBoundingClientRect().top/distance)) : 0;
+  stage.dataset.progress=String(progress);
+  stage.style.setProperty('--reel-turn',String(progress));
+  featuredFilm.hidden=progress<.48;
+  featuredFilm.inert=progress<.7;
+}
+let pendingScroll=false;
+function scheduleOpening(){
+  if(pendingScroll)return;
+  pendingScroll=true;
+  requestAnimationFrame(()=>{pendingScroll=false;frameOpening();});
+}
+window.addEventListener('scroll',scheduleOpening,{passive:true});
+window.addEventListener('resize',scheduleOpening);
+desktopOpening.addEventListener('change',frameOpening);
+frameOpening();
