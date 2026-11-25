@@ -22,4 +22,6 @@
 .character.ready img{position:absolute;opacity:0;pointer-events:none}
 .role-window{overflow:hidden}
 .role-window .swap{animation:role-roll .52s cubic-bezier(.22,.7,.2,1) both}
-@keyframes role-roll{from{transform:translateY(.85em);opacity:0;color:#82efda}to{transform:translateY(0);opacity:1}}
+@keyframes role-roll{from{transform:translateY(.85em);opacity:0;color:#82efda}to{transform:translateY(0);opacity:1}}.character.ready.spatial canvas:not(.head-surface){display:none}
+.stage-role{min-width:min(29vw,360px)}
+@media(max-width:600px){.stage-role{min-width:0}}

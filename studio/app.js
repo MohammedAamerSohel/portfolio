@@ -26,21 +26,16 @@ viewer.addEventListener('click', event => { if (event.target === viewer) viewer.
 viewer.addEventListener('close', () => { media.replaceChildren(); });
 const stage = document.querySelector('.stage');
 const roleText = document.querySelector('#role-text');
-const toggle = document.querySelector('#motion');
-const preference = matchMedia('(prefers-reduced-motion: reduce)');
 const roles = ['AI filmmaker', 'Virtual model director', 'Social strategist'];
-let paused = preference.matches;
 let visible = true;
 let roleIndex = 0;
 let timer;
 const face = createFaceAnimation(stage);
 function updateMotion() {
   clearInterval(timer);
-  face.setActive(!paused && visible && !document.hidden);
-  stage.classList.toggle('motion-paused', paused || !visible || document.hidden);
-  toggle.textContent = paused ? 'Play motion' : 'Pause motion';
-  toggle.setAttribute('aria-pressed', String(paused));
-  if (paused || !visible || document.hidden) {
+  face.setActive(visible && !document.hidden);
+  stage.classList.toggle('motion-paused', !visible || document.hidden);
+  if (!visible || document.hidden) {
     stage.removeAttribute('style');
     return;
   }
@@ -52,8 +47,6 @@ function updateMotion() {
     roleText.classList.add('swap');
   }, 3000);
 }
-toggle.addEventListener('click', () => { paused = !paused; updateMotion(); });
-preference.addEventListener('change', () => { paused = preference.matches; updateMotion(); });
 document.addEventListener('visibilitychange', updateMotion);
 new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; updateMotion(); }).observe(stage);
 const reveals = new IntersectionObserver(entries => {
