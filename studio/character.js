@@ -12,7 +12,7 @@ function createFaceAnimation(stage) {
   const views=['left','center','right'];
   let fallbackView='';
   function fallback() {
-    const view=Number(stage.dataset.progress)>.6 ? "desk" : views[targetX < -.28 ? 0 : targetX > .28 ? 2 : 1];
+    const view=Number(stage.dataset.wide)>.5 ? "desk" : views[targetX < -.28 ? 0 : targetX > .28 ? 2 : 1];
     if(view!==fallbackView) {fallbackView=view;poster.src='assets/pose-'+view+'.png';}
   }
   stage.addEventListener('scenechange',()=>{if(!renderer)fallback();});
@@ -42,7 +42,7 @@ function createFaceAnimation(stage) {
     const blink=blinkTime<0?0:blinkTime<.09?blinkTime/.09:Math.max(0,1-(blinkTime-.09)/.14);
     if(blinkTime>.24)nextBlink=age+2.8+Math.random()*1.8;
     const intro=Math.max(0,1-age/1.2)**2;
-    renderer(yaw-intro*.22,pitch+intro*.13,gazeX,gazeY,brow,blink,age,progress);
+    renderer(yaw-intro*.22,pitch+intro*.13,gazeX,gazeY,brow,blink,age,Number(stage.dataset.wide || 0));
     holder.classList.add('ready');
   }
   function setActive(value) {
@@ -78,14 +78,14 @@ function buildModel(gl) {
         p.y-=.47;
       }
       if(joint>4.5)p.y+=.016*sin(head.w*7.+joint*2.);
-      p.xz=spin(.14+.42*head.z)*p.xz;
+      p.xz=spin(.10+.62*head.z)*p.xz;
       n.xz=spin(.14+.42*head.z)*n.xz;
-      p.y+=1.12+.32*head.z;
+      p.y+=mix(-.24,1.35,head.z);
       p.yz=spin(.10+.06*head.z)*p.yz;
       n.yz=spin(.10+.06*head.z)*n.yz;
       world=p;
       float camera=9.5-p.z;
-      float zoom=1.72-.14*head.z;
+      float zoom=mix(4.55,1.62,head.z);
       gl_Position=vec4(p.x*zoom*viewport.y/viewport.x,(p.y+.07)*zoom,-p.z*.6,camera*.54);
     }`;
   const fragment=`
