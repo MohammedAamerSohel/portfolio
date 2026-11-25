@@ -95,3 +95,37 @@ body:has(.work-reel){background:#080e16;color:#eff5f6}
 @media(max-width:700px){.process{display:block}.process ol{margin-top:28px}.scene-services{bottom:9%}.scene-services h2{margin-bottom:5px}.offering-list>div{padding:6px 0}.offering-list p{line-height:1.34;font-size:14px}.project-track article{flex-basis:82vw;width:82vw}.stage .character{inset:0 0 auto;height:61%;translate:calc(-16vw*var(--turn,0)) calc(-9svh*var(--turn,0))}.project-track p{font-size:15px}.project-nav{gap:20px}}
 @media(prefers-reduced-motion:reduce){.intro-slate{display:none}}
 .character:not(.ready) img.portrait-fallback{mask-image:linear-gradient(to right,transparent,#000 15%,#000 85%,transparent),linear-gradient(to bottom,#000 80%,transparent);mask-composite:intersect}
+/* Profile, persistent navigation and career chapters */
+html{scroll-padding-top:66px}
+body{--profile-accent:#b9a1ff}
+header{position:sticky;top:0;z-index:8;background:rgba(9,13,22,.94);backdrop-filter:blur(12px)}
+.nav{height:62px}.header-mail{font-size:14px;color:#d8d2e9}.navcta{padding:7px 17px}
+.profile-rail{position:fixed;bottom:9vh;left:14px;z-index:6;display:grid;gap:8px}
+.profile-rail a{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#10151fc9;color:#e4e1f0;border:1px solid #817699;font-weight:700}
+.profile-rail a:hover{border-color:#b9a1ff;color:#d8caff}
+.intro-slate{display:flex;flex-direction:column;justify-content:center;gap:20px;background:#eae7f0;color:#15101f}
+.intro-slate span{font-size:clamp(18px,4.5vw,68px);font-weight:650;letter-spacing:-.055em;white-space:nowrap}
+.intro-slate img{width:145px;filter:brightness(.1)}
+.stage-light{background:radial-gradient(ellipse at 47% 85%,#293547,transparent 42%),radial-gradient(ellipse at 78% 45%,#201632,transparent 58%),#080b12}
+.career{padding:clamp(58px,8vw,120px) 0;max-width:1120px}
+.career h2{font:500 clamp(46px,6.2vw,88px)/.94 'Segoe UI',Arial,sans-serif;text-align:center;letter-spacing:-.07em;margin-bottom:clamp(38px,6vw,84px)}
+.career h2 em,.formats h2 em{color:#c2a7fa}
+.career-list,.academic ul,.profile-skills ul{padding:0;margin:0;list-style:none}
+.career-list>li{display:grid;grid-template-columns:30% 1fr;gap:7%;position:relative}
+.career-list>li:before{content:'';position:absolute;top:0;bottom:0;left:32%;width:1px;background:linear-gradient(#786888,#b999ee,#786888)}
+.career-list>li:after{content:'';position:absolute;left:calc(32% - 4px);top:25px;width:9px;height:9px;border-radius:50%;background:#d2b6ff;box-shadow:0 0 11px #bc90ff6b}
+.period{color:#dbc9ff;text-align:right;font:500 clamp(17px,2vw,29px)/1.22 Georgia,serif;padding-top:15px}
+.career-list>li>div:last-child{padding:10px 0 32px;border-bottom:1px solid #383844}
+.career-list h3{font:600 clamp(23px,2.8vw,40px)/1.14 'Segoe UI',Arial,sans-serif;letter-spacing:-.045em}
+.career-list p{color:#c4c8d2;margin-top:12px;max-width:690px}
+.career-list .employer{color:#f0eaf7;font-size:18px;margin-top:4px}.career-list .place{color:#acafbb;font-size:14px;margin-top:2px}
+.academic{margin:36px 0 0 37%;border-bottom:1px solid #494251}
+.academic summary{cursor:pointer;font-size:24px;padding:8px 0 15px}.academic summary span{font-size:14px;color:#bbb2c7;margin-left:10px}
+.academic li{padding:12px 0;border-top:1px solid #34313c}.academic strong{font-size:18px}.academic small{color:#c0b2ce}
+.profile-skills{padding:34px 0 66px;text-align:center}.profile-skills h2{font-size:24px;letter-spacing:-.04em}
+.profile-skills ul{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.profile-skills li{border:1px solid #584f66;padding:7px 14px;border-radius:35px}
+.orbs span{padding:8px;text-align:center;background:radial-gradient(circle at 32% 24%,white,#e6e0ff 28%,#b7b3da 55%,#89829f 80%,#564e71)}
+@media(min-width:950px){.project-track article{flex-basis:min(43vw,740px);width:min(43vw,740px)}.project-track article:nth-child(2){display:flex;flex-direction:column}.project-track article:nth-child(2) .thumb{order:2;margin-top:12px}.project-track .thumb img{aspect-ratio:1.95}.project-track{gap:3vw}}
+@media(max-width:900px){.header-mail,.profile-rail{display:none}}
+@media(max-width:650px){html{scroll-padding-top:54px}.nav{height:52px}.career h2{text-align:left}.career-list>li{display:block;padding-left:20px}.career-list>li:before,.career-list>li:after{left:0}.career-list>li:after{left:-4px;top:21px}.period{text-align:left;font-size:17px}.career-list>li>div:last-child{padding:6px 0 22px}.academic{margin-left:0}.profile-skills li{font-size:14px}.scene-about p{font-size:14px;line-height:1.44}.scene-about h2{font-size:32px}.career-list .employer{font-size:16px}}

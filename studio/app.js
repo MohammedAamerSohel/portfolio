@@ -26,7 +26,7 @@ viewer.addEventListener('click', event => { if (event.target === viewer) viewer.
 viewer.addEventListener('close', () => { media.replaceChildren(); });
 const stage = document.querySelector('.stage');
 const roleText = document.querySelector('#role-text');
-const roles = ['AI filmmaker', 'Virtual model director', 'Social strategist'];
+const roles = ['AI content creator', 'AI filmmaker', 'Social strategist'];
 let visible = true;
 let roleIndex = 0;
 let timer;
@@ -68,8 +68,8 @@ function updatePage(){
   stage.style.setProperty('--intro-opacity',String(1-ramp(p,.04,.19)));
   stage.style.setProperty('--about-opacity',String(aboutFade));stage.style.setProperty('--services-opacity',String(wide));
   intro.inert=p>.18;about.inert=aboutFade<.5;services.inert=wide<.5;
-  cue.href=p<.19?'#about':p<.62?'#services':'#process';
-  cue.textContent=p<.19?'Scroll to About me':p<.62?'What I do':'My process';
+  cue.href=p<.19?'#about':p<.62?'#services':'#career';
+  cue.textContent=p<.19?'Scroll to About me':p<.62?'What I do':'Career & experience';
   const w=clamp01(-reel.getBoundingClientRect().top/scrollDistance(reel,pinned));
   const cards=track.children;
   const travel=cards[cards.length-1].offsetLeft-cards[0].offsetLeft;
