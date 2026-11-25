@@ -24,14 +24,52 @@ document.querySelectorAll('[data-film]').forEach(button => {
 document.querySelector('#close').addEventListener('click', () => viewer.close());
 viewer.addEventListener('click', event => { if (event.target === viewer) viewer.close(); });
 viewer.addEventListener('close', () => { media.replaceChildren(); });
-const campaignNames = {cobalt: "Cobalt", ember: "Ember", citrus: "Citrus"};
-const picks = document.querySelectorAll("[data-pick]");
-const shots = document.querySelectorAll("[data-scene]");
-picks.forEach(pick => pick.addEventListener("click", () => {
-  const key = pick.dataset.pick;
-  picks.forEach(option => option.setAttribute("aria-pressed", String(option === pick)));
-  shots.forEach(shot => shot.classList.toggle("active", shot.dataset.scene === key));
-  document.querySelector("#hero-play").dataset.film = key;
-  document.querySelector("#play-label").textContent = (key === "citrus" ? "View " : "Watch ") + campaignNames[key];
-  document.querySelector("#hero-play").classList.toggle("still", key === "citrus");
-}));
+const stage = document.querySelector('.stage');
+const roleText = document.querySelector('#role-text');
+const toggle = document.querySelector('#motion');
+const preference = matchMedia('(prefers-reduced-motion: reduce)');
+const roles = ['AI filmmaker', 'Virtual model director', 'Social strategist'];
+let paused = preference.matches;
+let visible = true;
+let roleIndex = 0;
+let timer;
+function updateMotion() {
+  clearInterval(timer);
+  stage.classList.toggle('motion-paused', paused || !visible || document.hidden);
+  toggle.textContent = paused ? 'Play motion' : 'Pause motion';
+  toggle.setAttribute('aria-pressed', String(paused));
+  if (paused || !visible || document.hidden) {
+    stage.removeAttribute('style');
+    return;
+  }
+  timer = setInterval(() => {
+    roleIndex = (roleIndex + 1) % roles.length;
+    roleText.textContent = roles[roleIndex];
+    roleText.classList.remove('swap');
+    void roleText.offsetWidth;
+    roleText.classList.add('swap');
+  }, 3000);
+}
+toggle.addEventListener('click', () => { paused = !paused; updateMotion(); });
+preference.addEventListener('change', () => { paused = preference.matches; updateMotion(); });
+document.addEventListener('visibilitychange', updateMotion);
+new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; updateMotion(); }).observe(stage);
+stage.addEventListener('pointermove', event => {
+  if (paused || event.pointerType !== 'mouse') return;
+  const box = stage.getBoundingClientRect();
+  const x = (event.clientX - box.left) / box.width - 0.5;
+  const y = (event.clientY - box.top) / box.height - 0.5;
+  stage.style.setProperty('--mx', (x * 20) + 'px');
+  stage.style.setProperty('--my', (y * 9) + 'px');
+  stage.style.setProperty('--tilt', (x * 10) + 'deg');
+});
+stage.addEventListener('pointerleave', () => stage.removeAttribute('style'));
+const reveals = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add('reveal');
+    reveals.unobserve(entry.target);
+  });
+});
+document.querySelectorAll('.gallery article').forEach(card => reveals.observe(card));
+updateMotion();
