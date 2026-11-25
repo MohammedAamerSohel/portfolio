@@ -33,8 +33,10 @@ let paused = preference.matches;
 let visible = true;
 let roleIndex = 0;
 let timer;
+const face = createFaceAnimation(stage);
 function updateMotion() {
   clearInterval(timer);
+  face.setActive(!paused && visible && !document.hidden);
   stage.classList.toggle('motion-paused', paused || !visible || document.hidden);
   toggle.textContent = paused ? 'Play motion' : 'Pause motion';
   toggle.setAttribute('aria-pressed', String(paused));
@@ -54,16 +56,6 @@ toggle.addEventListener('click', () => { paused = !paused; updateMotion(); });
 preference.addEventListener('change', () => { paused = preference.matches; updateMotion(); });
 document.addEventListener('visibilitychange', updateMotion);
 new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; updateMotion(); }).observe(stage);
-stage.addEventListener('pointermove', event => {
-  if (paused || event.pointerType !== 'mouse') return;
-  const box = stage.getBoundingClientRect();
-  const x = (event.clientX - box.left) / box.width - 0.5;
-  const y = (event.clientY - box.top) / box.height - 0.5;
-  stage.style.setProperty('--mx', (x * 20) + 'px');
-  stage.style.setProperty('--my', (y * 9) + 'px');
-  stage.style.setProperty('--tilt', (x * 10) + 'deg');
-});
-stage.addEventListener('pointerleave', () => stage.removeAttribute('style'));
 const reveals = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;
