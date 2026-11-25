@@ -132,9 +132,3 @@ header{position:sticky;top:0;z-index:8;background:rgba(9,13,22,.94);backdrop-fil
 
 .intro-slate{visibility:hidden}
 @media(prefers-reduced-motion:reduce){.intro-slate{display:none!important}}
-
-.stage .character .portrait-fallback,.stage .character canvas{opacity:calc(1 - var(--wide,0))}
-.stage .character.ready .portrait-fallback{opacity:0}
-.stage .character img.editing-scene{position:absolute;opacity:var(--wide,0);width:min(50vw,84svh);height:auto;aspect-ratio:1;object-fit:contain;mask-image:radial-gradient(ellipse closest-side,#000 74%,transparent 140%);transform:scale(calc(.94 + .06 * var(--wide,0)))}
-@media(max-width:700px){.stage .character img.editing-scene{width:min(80vw,48svh)}}
-@media(max-width:700px){.stage .character img.editing-scene{translate:0 3svh}}
