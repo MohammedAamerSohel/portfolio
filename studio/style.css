@@ -45,3 +45,30 @@
 .opening-film strong{font:italic 36px Georgia,serif}
 .opening-film button{color:#c9ffed;border:1px solid #6ca99c;background:#132837;border-radius:30px;padding:9px 14px}
 }
+.opening{height:540svh;min-height:0;position:relative;background:#080e16}
+.opening .stage{position:sticky;top:0;height:100svh;min-height:0}
+.scene-anchor{position:absolute;left:0;width:1px;height:1px}
+.scene-anchor#about{top:calc(22% - 22svh)}.scene-anchor#work{top:calc(50% - 50svh)}.scene-anchor#cobalt{top:calc(70% - 70svh)}.scene-anchor#citrus{top:calc(89% - 89svh)}
+.stage .character{inset:0;align-items:center;translate:calc(var(--turn,0)*-23vw) 0;scale:1}
+.stage .character :is(canvas,img){width:min(70vw,91svh);height:min(70vw,91svh);object-fit:contain}
+.stage .stage-copy{opacity:var(--intro-opacity,1)}
+.scene-panel{position:absolute;top:48%;right:6%;width:min(41%,590px);transform:translateY(-50%);z-index:2}
+.scene-panel[inert]{pointer-events:none;visibility:hidden}
+.scene-about{opacity:var(--about-opacity,0)}.scene-work{opacity:var(--work-opacity,0)}
+.scene-panel h2{font:500 clamp(36px,4.4vw,76px)/1 'Segoe UI',Arial,sans-serif;letter-spacing:-.065em;margin:10px 0 18px}
+.scene-panel h2 em{font-family:Georgia,serif;font-weight:400}
+.scene-panel .kicker,.scene-panel .meta{color:#9cf5d7}.scene-panel p{color:#d3e2e1;font-size:clamp(15px,1.25vw,20px);line-height:1.58}
+.scene-panel .thumb img{aspect-ratio:2.35;object-fit:cover;max-height:26svh}
+.screening article[hidden]{display:none}.screening .meta{margin-top:12px}.screening h3{font-size:clamp(22px,2.3vw,32px);letter-spacing:-.055em}
+.film-links{gap:18px;margin-top:14px;display:flex}.film-links a{font-size:14px;color:#c4d6d9;border-bottom:2px solid transparent}.film-links [aria-current=true]{color:#9cf5d7;border-color:currentColor}
+.stage-foot{z-index:3;pointer-events:none}.stage-work{pointer-events:auto}
+@media(max-width:700px){
+.opening{height:520svh}.stage .character{inset:1% 0 auto;height:62%;translate:calc(-16vw*var(--turn,0)) calc(-10svh*var(--turn,0))}
+.stage .character :is(canvas,img){width:min(95vw,60svh);height:min(95vw,60svh)}
+.stage .stage-copy{position:absolute;top:auto;bottom:12%;height:auto;align-items:center}
+.scene-panel{top:auto;bottom:10%;left:7%;width:86%;transform:none}
+.scene-panel h2{font-size:clamp(31px,7.2vw,44px);margin:5px 0 10px}
+.scene-panel .thumb img{aspect-ratio:3.1;max-height:17svh}.scene-panel p{font-size:15px}.scene-panel .meta{font-size:10px;margin-top:7px}
+.scene-work h3{font-size:22px}.film-links{margin-top:6px}.scene-work .screening p{font-size:14px;line-height:1.4}
+}
+@media(max-height:530px) and (min-width:701px){.scene-work .screening p{display:none}.scene-panel h2{font-size:30px;margin:4px 0}.scene-work .meta{margin-top:4px}.stage-foot{padding-block:4px}}

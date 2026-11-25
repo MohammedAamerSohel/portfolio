@@ -12,9 +12,10 @@ function createFaceAnimation(stage) {
   const views=['left','center','right'];
   let fallbackView='';
   function fallback() {
-    const view=views[targetX < -.28 ? 0 : targetX > .28 ? 2 : 1];
+    const view=Number(stage.dataset.progress)>.6 ? "desk" : views[targetX < -.28 ? 0 : targetX > .28 ? 2 : 1];
     if(view!==fallbackView) {fallbackView=view;poster.src='assets/pose-'+view+'.png';}
   }
+  stage.addEventListener('scenechange',()=>{if(!renderer)fallback();});
   function point(e) {
     const rect=holder.getBoundingClientRect();
     if (!rect.width) return;
@@ -41,7 +42,7 @@ function createFaceAnimation(stage) {
     const blink=blinkTime<0?0:blinkTime<.09?blinkTime/.09:Math.max(0,1-(blinkTime-.09)/.14);
     if(blinkTime>.24)nextBlink=age+2.8+Math.random()*1.8;
     const intro=Math.max(0,1-age/1.2)**2;
-    renderer(yaw-intro*.22,pitch+intro*.13,gazeX,gazeY,brow,blink,age);
+    renderer(yaw-intro*.22,pitch+intro*.13,gazeX,gazeY,brow,blink,age,progress);
     holder.classList.add('ready');
   }
   function setActive(value) {
@@ -70,15 +71,21 @@ function buildModel(gl) {
         p.y=.427+(p.y-.427)*open;
         n=normalize(vec3(n.x,n.y/open,n.z));
       }
-      if(joint>.5){
+      if(joint>.5 && joint<4.5){
         p.y+=.47;
         p.yz=spin(head.y)*p.yz;n.yz=spin(head.y)*n.yz;
         p.xz=spin(-head.x)*p.xz;n.xz=spin(-head.x)*n.xz;
         p.y-=.47;
       }
+      if(joint>4.5)p.y+=.016*sin(head.w*7.+joint*2.);
+      p.xz=spin(.14+.42*head.z)*p.xz;
+      n.xz=spin(.14+.42*head.z)*n.xz;
+      p.y+=1.12+.32*head.z;
+      p.yz=spin(.10+.06*head.z)*p.yz;
+      n.yz=spin(.10+.06*head.z)*n.yz;
       world=p;
-      float camera=5.8-p.z;
-      float zoom=2.02;
+      float camera=9.5-p.z;
+      float zoom=1.72-.14*head.z;
       gl_Position=vec4(p.x*zoom*viewport.y/viewport.x,(p.y+.07)*zoom,-p.z*.6,camera*.54);
     }`;
   const fragment=`
@@ -169,6 +176,55 @@ function buildModel(gl) {
       const center=[x+.15*Math.sin(v*pi*1.4)+.13*v,base+(.41+.14*Math.cos(x*3))*v+.10*Math.sin(pi*v),.48+.16*Math.sin(pi*v)-.55*v-.44*x*x];
       return [center[0]+.175*w*Math.cos(tau*u),center[1]+.038*w*Math.cos(tau*u),center[2]-.172*w*Math.sin(tau*u)];},16,21,[.095+k*.002,.067+k*.001,.068+k*.001]);
   }
+  // Solid furniture, chair, seated legs and arms share the character's camera.
+  function box(center, size, color, angle=0) {
+    for(const [axis,sign] of [[0,1],[0,-1],[1,1],[1,-1],[2,1],[2,-1]]){
+      const first=(axis+1)%3, second=(axis+2)%3, start=verts.length/10;
+      for(const [a,b] of [[-1,-1],[1,-1],[1,1],[-1,1]]){
+        const q=[0,0,0],n=[0,0,0];q[axis]=sign*size[axis]/2;
+        q[first]=a*size[first]/2;q[second]=b*size[second]/2;n[axis]=sign;
+        const rotate=v=>[v[0]*Math.cos(angle)+v[2]*Math.sin(angle),v[1],v[2]*Math.cos(angle)-v[0]*Math.sin(angle)];
+        verts.push(...rotate(q).map((v,i)=>v+center[i]),...rotate(n),...color,0);
+      }
+      tris.push(start,start+1,start+2,start,start+2,start+3);
+    }
+  }
+  function limb(from,to,r,color,joint=0){
+    tube(t=>from.map((v,i)=>v+(to[i]-v)*t),t=>r*(.78+.22*Math.sin(pi*t)),color,joint,12,12);
+  }
+  const metal=[.19,.23,.26], leather=[.135,.16,.19], denim=[.17,.22,.26];
+  oval([0,-1.54,-.46],[.87,1.03,.17],leather,0);
+  oval([0,-2.18,-.08],[.83,.17,.66],leather,0);
+  box([0,-2.65,-.18],[.13,1,.13],metal);
+  for(const side of [-1,1]){
+    box([side*.79,-1.72,-.12],[.18,.095,.75],leather);
+    box([side*.79,-1.94,-.2],[.08,.44,.08],metal);
+    limb([0,-3.04,-.17],[side*.68,-3.20,-.35],.085,metal);
+    oval([side*.68,-3.24,-.35],[.106,.10,.09],black,0);
+    const knee=[side*.43,-2.27,.82];
+    limb([side*.35,-1.99,.03],knee,.29,denim);
+    limb(knee,[side*.46,-3.16,.68],.20,denim);
+    oval([side*.45,-3.24,.86],[.24,.13,.37],black,0);
+    const elbow=[side*.97,-1.68,.18],wrist=[side*.52,-1.57,.94];
+    limb([side*.77,-1.13,-.02],elbow,.20,black);
+    limb(elbow,wrist,.16,black);
+    oval(wrist,[.14,.10,.12],skin,0);
+    oval([side*.47,-1.57,1.04],[.19,.083,.19],skin,side<0?5:6);
+    for(let k=0;k<4;k++)limb([side*(.36+k*.065),-1.58,1.09],[side*(.34+k*.064),-1.63,1.27],.028,skin,side<0?5:6);
+    box([side*1.54,-2.55,1.17],[.10,1.58,.11],metal);
+    box([side*1.54,-3.31,1.13],[.21,.08,.90],metal);
+  }
+  box([0,-1.77,1.00],[3.46,.11,1.22],[.39,.27,.19]);
+  box([0,-1.84,1.00],[3.33,.045,1.12],metal);
+  box([-.1,-1.689,1.12],[1.26,.045,.42],[.19,.23,.26]);
+  for(let row=0;row<3;row++)for(let key=0;key<12;key++)
+    box([-.66+key*.101,-1.655,.98+row*.097],[.08,.032,.072],[.31,.38,.40]);
+  // A side-mounted editing monitor leaves the filmmaker's face visible.
+  box([1.13,-1.675,.86],[.42,.05,.31],metal);
+  box([1.13,-1.39,.87],[.075,.55,.08],metal);
+  box([1.12,-.91,.90],[1.12,.68,.07],[.13,.18,.22],-.49);
+  box([1.106,-.91,.943],[1.02,.57,.015],[.12,.32,.35],-.49);
+  for(let k=0;k<5;k++)box([1.01+.036*k,-1.07+k*.032,.90+(k*.036-.11)*.53+.065],[.55-.052*k,.017,.012],[.31,.70,.64],-.49);
   const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(verts),gl.STATIC_DRAW);
   for(const [name,size,offset] of [['pos',3,0],['normal',3,3],['color',3,6],['joint',1,9]]){
     const a=gl.getAttribLocation(program,name);gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,size,gl.FLOAT,false,40,offset*4);
@@ -176,12 +232,12 @@ function buildModel(gl) {
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,gl.createBuffer());gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint16Array(tris),gl.STATIC_DRAW);
   const loc=name=>gl.getUniformLocation(program,name),head=loc('head'),face=loc('face'),vp=loc('viewport');
   gl.enable(gl.DEPTH_TEST);
-  return (yaw,pitch,gx,gy,brow,blink)=>{
+  return (yaw,pitch,gx,gy,brow,blink,time=0,progress=0)=>{
     const canvas=gl.canvas;
-    const w=800,h=1000;
+    const w=960,h=960;
     if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;gl.viewport(0,0,w,h);}
     gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
-    gl.uniform2f(vp,w,h);gl.uniform4f(head,yaw,pitch,0,0);gl.uniform4f(face,gx,gy,brow,blink);
+    gl.uniform2f(vp,w,h);gl.uniform4f(head,yaw,pitch,progress,time);gl.uniform4f(face,gx,gy,brow,blink);
     gl.drawElements(gl.TRIANGLES,tris.length,gl.UNSIGNED_SHORT,0);
   };
 }
