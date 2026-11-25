@@ -24,3 +24,14 @@ document.querySelectorAll('[data-film]').forEach(button => {
 document.querySelector('#close').addEventListener('click', () => viewer.close());
 viewer.addEventListener('click', event => { if (event.target === viewer) viewer.close(); });
 viewer.addEventListener('close', () => { media.replaceChildren(); });
+const campaignNames = {cobalt: "Cobalt", ember: "Ember", citrus: "Citrus"};
+const picks = document.querySelectorAll("[data-pick]");
+const shots = document.querySelectorAll("[data-scene]");
+picks.forEach(pick => pick.addEventListener("click", () => {
+  const key = pick.dataset.pick;
+  picks.forEach(option => option.setAttribute("aria-pressed", String(option === pick)));
+  shots.forEach(shot => shot.classList.toggle("active", shot.dataset.scene === key));
+  document.querySelector("#hero-play").dataset.film = key;
+  document.querySelector("#play-label").textContent = (key === "citrus" ? "View " : "Watch ") + campaignNames[key];
+  document.querySelector("#hero-play").classList.toggle("still", key === "citrus");
+}));
